@@ -37,7 +37,7 @@ namespace AlumnoEjemplos.BATTLE_SHIP
         /// </summary>
         public override string getName()
         {
-            return "Grupo 99 - BATTLE_SHIP .  ";
+            return "Grupo 99 - BATTLE_SHIP";
         }
 
         /// <summary>
