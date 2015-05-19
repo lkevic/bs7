@@ -35,7 +35,7 @@ namespace AlumnoEjemplos.BATTLE_SHIP.Naves
                 new Vector3(0f, Geometry.DegreeToRadian(180f), 0f), 
                 new Vector3(escala, escala, escala),
                 250f,
-                100f);
+                70f);
 
             ManagerTGC.AddNavePrincipal(nave);
 
@@ -57,7 +57,7 @@ namespace AlumnoEjemplos.BATTLE_SHIP.Naves
                 new Vector3(0f, 0f, 0f),
                 new Vector3(escala, escala, escala),
                 250f,
-                100f);
+                70f);
 
             ManagerTGC.Add(nave);
 
@@ -78,7 +78,7 @@ namespace AlumnoEjemplos.BATTLE_SHIP.Naves
                 new Vector3(0f, 0f, 0f),
                 new Vector3(escala, escala, escala),
                 250f,
-                100f);
+                70f);
 
             ManagerTGC.Add(nave);
 

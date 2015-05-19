@@ -100,6 +100,7 @@
     <Compile Include="BATTLE_SHIP\Usuario\ControlUsuario.cs" />
     <Compile Include="BATTLE_SHIP\Usuario\PanelUsuario.cs" />
     <Compile Include="BATTLE_SHIP\Usuario\Panel\Radar.cs" />
+    <Compile Include="BATTLE_SHIP\Utils\MoveableTgcSkyBox.cs" />
     <Compile Include="BATTLE_SHIP\Utils\TgcMath.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -126,7 +127,19 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="AlumnoMedia\BATTLE_SHIP\Texturas\SkyBox\circular.jpg" />
+    <Content Include="AlumnoMedia\BATTLE_SHIP\Texturas\SkyBox\lat1.jpg" />
+    <Content Include="AlumnoMedia\BATTLE_SHIP\Texturas\SkyBox\lat2.jpg" />
+    <Content Include="AlumnoMedia\BATTLE_SHIP\Texturas\SkyBox\lat3.jpg" />
+    <Content Include="AlumnoMedia\BATTLE_SHIP\Texturas\SkyBox\lat4.jpg" />
+    <Content Include="AlumnoMedia\BATTLE_SHIP\Texturas\SkyBox\piso.jpg" />
+    <Content Include="AlumnoMedia\BATTLE_SHIP\Texturas\SkyBox\techo.jpg" />
+    <Content Include="AlumnoMedia\Panel\Radar\Enemigo64x64.png" />
+    <Content Include="AlumnoMedia\Panel\Radar\Radar256x256.png" />
+    <Content Include="AlumnoMedia\Panel\Radar\Usuario51x44.png" />
+    <Content Include="AlumnoMedia\Panel\Radar\Usuario64x64.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

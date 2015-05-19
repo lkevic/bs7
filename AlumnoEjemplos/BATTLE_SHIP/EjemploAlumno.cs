@@ -15,6 +15,8 @@ using Microsoft.DirectX.DirectInput;
 using AlumnoEjemplos.BATTLE_SHIP.Usuario;
 using AlumnoEjemplos.BATTLE_SHIP.Elementos;
 using AlumnoEjemplos.BATTLE_SHIP.Espacio;
+using TgcViewer.Utils.Terrain;
+using AlumnoEjemplos.BATTLE_SHIP.Utils;
 
 namespace AlumnoEjemplos.BATTLE_SHIP
 {
@@ -99,7 +101,7 @@ namespace AlumnoEjemplos.BATTLE_SHIP
                 new Vector3(80, 100, 150),
                 TgcTexture.createTexture(d3dDevice, GuiController.Instance.ExamplesMediaDir + "Texturas\\granito.jpg"));
             managerPrincipal.Add(obstaculo);
-
+            
             creadorDeNaves.CrearNaveEnemiga1(new Vector3(1000, 200, 700));
             creadorDeNaves.CrearNaveEnemiga1(new Vector3(1000, 200, 300));
             creadorDeNaves.CrearNaveEnemiga1(new Vector3(1000, 0, 700));
@@ -124,7 +126,27 @@ namespace AlumnoEjemplos.BATTLE_SHIP
             camara = new CamaraUsuario(navePrincipal);
 
             //Color de fondo
-            GuiController.Instance.BackgroundColor = Color.Black;
+            GuiController.Instance.BackgroundColor = Color.Red;
+
+
+            //Crear SkyBox 
+            skyBox = new MoveableTgcSkyBox(camara.GetPosition());
+            skyBox.Size = new Vector3(11500, 11500, 11500);
+            
+            //Configurar color
+            //skyBox.Color = Color.OrangeRed;
+
+            //Configurar las texturas para cada una de las 6 caras
+            skyBox.setFaceTexture(TgcSkyBox.SkyFaces.Up,    alumnoMediaFolder + @"BATTLE_SHIP\Texturas\SkyBox\techo.jpg");
+            skyBox.setFaceTexture(TgcSkyBox.SkyFaces.Down,  alumnoMediaFolder + @"BATTLE_SHIP\Texturas\SkyBox\piso.jpg");
+            skyBox.setFaceTexture(TgcSkyBox.SkyFaces.Left,  alumnoMediaFolder + @"BATTLE_SHIP\Texturas\SkyBox\lat1.jpg");
+            skyBox.setFaceTexture(TgcSkyBox.SkyFaces.Right, alumnoMediaFolder + @"BATTLE_SHIP\Texturas\SkyBox\lat2.jpg");
+            skyBox.setFaceTexture(TgcSkyBox.SkyFaces.Front, alumnoMediaFolder + @"BATTLE_SHIP\Texturas\SkyBox\lat3.jpg");
+            skyBox.setFaceTexture(TgcSkyBox.SkyFaces.Back,  alumnoMediaFolder + @"BATTLE_SHIP\Texturas\SkyBox\lat4.jpg");
+
+            //Actualizar todos los valores para crear el SkyBox
+            skyBox.updateValues();
+
 
         }
 
@@ -150,6 +172,11 @@ namespace AlumnoEjemplos.BATTLE_SHIP
 
             // Render
             managerPrincipal.RenderAll();
+
+            // Terreno
+            skyBox.ActualizarCentro(camara.GetPosition());
+            //skyBox.updateValues();
+            skyBox.render();
 
             // Panel
             panel.render(managerPrincipal.NavePrincipal, managerPrincipal.NavesEnemigas);
@@ -178,5 +205,7 @@ namespace AlumnoEjemplos.BATTLE_SHIP
         private EspacioFactory creadorDeObjetosEspaciales;
 
         public PanelUsuario panel { get; set; }
+
+        public MoveableTgcSkyBox skyBox { get; set; }
     }
 }

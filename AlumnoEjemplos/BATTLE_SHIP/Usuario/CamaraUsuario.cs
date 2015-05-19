@@ -35,5 +35,10 @@ namespace AlumnoEjemplos.BATTLE_SHIP.Usuario
 
             return new Vector3(objetivo.Position.X + x, objetivo.Position.Y, objetivo.Position.Z + z);
         }
+
+        public Vector3 GetPosition()
+        {
+            return GuiController.Instance.ThirdPersonCamera.Position;
+        }
     }
 }

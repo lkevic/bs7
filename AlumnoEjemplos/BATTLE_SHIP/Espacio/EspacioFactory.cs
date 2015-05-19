@@ -27,7 +27,7 @@ namespace AlumnoEjemplos.BATTLE_SHIP.Espacio
             
             var sun = new Sol("Sol",
                         tgcLoader.loadSceneFromFile(sphere).Meshes[0],
-                        new Vector3(-200f, 0f, 5000f),
+                        new Vector3(-200f, 0f, 3000f),
                         new Vector3(0f, 0f, 0f),
                         new Vector3(10f, 10f, 10f));
 
