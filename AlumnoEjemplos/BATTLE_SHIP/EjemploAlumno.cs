@@ -58,24 +58,29 @@ namespace AlumnoEjemplos.BATTLE_SHIP
         /// </summary>
         public override void init()
         {
-            //GuiController.Instance: acceso principal a todas las herramientas del Framework
-
             //Device de DirectX para crear primitivas
+            GuiController.Instance.Logger.log("");
+            GuiController.Instance.Logger.log("Cargando DirectX 3D Device");
             Microsoft.DirectX.Direct3D.Device d3dDevice = GuiController.Instance.D3dDevice;
 
             //Carpeta de archivos Media del alumno
             string alumnoMediaFolder = GuiController.Instance.AlumnoEjemplosMediaDir;
 
+            GuiController.Instance.Logger.log("Cargando TgcViewer.Utils");
             pickingRay = new TgcPickingRay();
             TgcSceneLoader loader = new TgcSceneLoader();
 
+            GuiController.Instance.Logger.log("Cargando Administrador de Elementos");
             managerPrincipal = new ElementosManager();
 
+            GuiController.Instance.Logger.log("Cargando Panel de Usuario");
             panel = new PanelUsuario();
 
+            GuiController.Instance.Logger.log("Cargando Factorys");
             creadorDeNaves = new NaveFactory(managerPrincipal, loader);
             creadorDeObjetosEspaciales = new EspacioFactory(managerPrincipal, loader);
 
+            GuiController.Instance.Logger.log("Creado Nave Principal");
             navePrincipal = creadorDeNaves.CrearNavePrincipal();
 
             //TgcBox obstaculo;
@@ -87,6 +92,7 @@ namespace AlumnoEjemplos.BATTLE_SHIP
             //managerPrincipal.Add(obstaculo);
             
             // Enemigos
+            GuiController.Instance.Logger.log("Creado Naves Enemigas");
             creadorDeNaves.CrearNaveEnemiga1(new Vector3(1000, 200, 700));
             creadorDeNaves.CrearNaveEnemiga1(new Vector3(1000, 200, 300));
             creadorDeNaves.CrearNaveEnemiga1(new Vector3(1000, 0, 700));
@@ -105,17 +111,23 @@ namespace AlumnoEjemplos.BATTLE_SHIP
 
             creadorDeNaves.CrearNaveEnemigaVIP(new Vector3(1400, 100, 500));
 
+            GuiController.Instance.Logger.log("Creado Objetos del Espacio");
             creadorDeObjetosEspaciales.CrearSol(d3dDevice);
 
             //Posicion inicial de la camara
+            GuiController.Instance.Logger.log("Cargando Cámara");
             camara = new CamaraUsuario(navePrincipal);
 
             //Color de fondo
+            GuiController.Instance.Logger.log("Cargando Fondo");
             GuiController.Instance.BackgroundColor = Color.Red;
 
             //Crear SkyBox 
+            GuiController.Instance.Logger.log("Cargando SkyBox");
             skyBox = new BSSkyBox(camara.GetPosition(), alumnoMediaFolder);
 
+            //Listo
+            GuiController.Instance.Logger.log("Listo!");
         }
 
 
@@ -156,7 +168,7 @@ namespace AlumnoEjemplos.BATTLE_SHIP
         /// </summary>
         public override void close()
         {
-
+            //TODO: dispose de todo!!!
         }
 
 
