@@ -91,6 +91,8 @@
     <Compile Include="BATTLE_SHIP\Elementos\ElementosManager.cs" />
     <Compile Include="BATTLE_SHIP\Espacio\EspacioFactory.cs" />
     <Compile Include="BATTLE_SHIP\Espacio\Sol.cs" />
+    <Compile Include="BATTLE_SHIP\Espacio\Terreno\BSSkyBox.cs" />
+    <Compile Include="BATTLE_SHIP\Espacio\Terreno\ISkyBox.cs" />
     <Compile Include="BATTLE_SHIP\Naves\Fazer.cs" />
     <Compile Include="BATTLE_SHIP\Naves\Laser.cs" />
     <Compile Include="BATTLE_SHIP\Naves\Nave.cs" />

@@ -17,6 +17,7 @@ using AlumnoEjemplos.BATTLE_SHIP.Elementos;
 using AlumnoEjemplos.BATTLE_SHIP.Espacio;
 using TgcViewer.Utils.Terrain;
 using AlumnoEjemplos.BATTLE_SHIP.Utils;
+using AlumnoEjemplos.BATTLE_SHIP.Espacio.Terreno;
 
 namespace AlumnoEjemplos.BATTLE_SHIP
 {
@@ -77,31 +78,15 @@ namespace AlumnoEjemplos.BATTLE_SHIP
 
             navePrincipal = creadorDeNaves.CrearNavePrincipal();
 
-            //Cargar obstaculos y posicionarlos. Los obstáculos se crean con TgcBox en lugar de cargar un modelo.
-            TgcBox obstaculo;
-
-
+            //TgcBox obstaculo;
             //Obstaculo 1
-            obstaculo = TgcBox.fromSize(
-                new Vector3(-100, 0, 0),
-                new Vector3(80, 150, 80),
-                TgcTexture.createTexture(d3dDevice, GuiController.Instance.ExamplesMediaDir + "Texturas\\baldosaFacultad.jpg"));
-            managerPrincipal.Add(obstaculo);
-
-            //Obstaculo 2
-            obstaculo = TgcBox.fromSize(
-                new Vector3(50, 0, 200),
-                new Vector3(80, 300, 80),
-                TgcTexture.createTexture(d3dDevice, GuiController.Instance.ExamplesMediaDir + "Texturas\\madera.jpg"));
-            managerPrincipal.Add(obstaculo);
-
-            //Obstaculo 3
-            obstaculo = TgcBox.fromSize(
-                new Vector3(300, 0, 100),
-                new Vector3(80, 100, 150),
-                TgcTexture.createTexture(d3dDevice, GuiController.Instance.ExamplesMediaDir + "Texturas\\granito.jpg"));
-            managerPrincipal.Add(obstaculo);
+            //obstaculo = TgcBox.fromSize(
+            //    new Vector3(-100, 0, 0),
+            //    new Vector3(80, 150, 80),
+            //    TgcTexture.createTexture(d3dDevice, GuiController.Instance.ExamplesMediaDir + "Texturas\\baldosaFacultad.jpg"));
+            //managerPrincipal.Add(obstaculo);
             
+            // Enemigos
             creadorDeNaves.CrearNaveEnemiga1(new Vector3(1000, 200, 700));
             creadorDeNaves.CrearNaveEnemiga1(new Vector3(1000, 200, 300));
             creadorDeNaves.CrearNaveEnemiga1(new Vector3(1000, 0, 700));
@@ -128,25 +113,8 @@ namespace AlumnoEjemplos.BATTLE_SHIP
             //Color de fondo
             GuiController.Instance.BackgroundColor = Color.Red;
 
-
             //Crear SkyBox 
-            skyBox = new MoveableTgcSkyBox(camara.GetPosition());
-            skyBox.Size = new Vector3(11500, 11500, 11500);
-            
-            //Configurar color
-            //skyBox.Color = Color.OrangeRed;
-
-            //Configurar las texturas para cada una de las 6 caras
-            skyBox.setFaceTexture(TgcSkyBox.SkyFaces.Up,    alumnoMediaFolder + @"BATTLE_SHIP\Texturas\SkyBox\techo.jpg");
-            skyBox.setFaceTexture(TgcSkyBox.SkyFaces.Down,  alumnoMediaFolder + @"BATTLE_SHIP\Texturas\SkyBox\piso.jpg");
-            skyBox.setFaceTexture(TgcSkyBox.SkyFaces.Left,  alumnoMediaFolder + @"BATTLE_SHIP\Texturas\SkyBox\lat1.jpg");
-            skyBox.setFaceTexture(TgcSkyBox.SkyFaces.Right, alumnoMediaFolder + @"BATTLE_SHIP\Texturas\SkyBox\lat2.jpg");
-            skyBox.setFaceTexture(TgcSkyBox.SkyFaces.Front, alumnoMediaFolder + @"BATTLE_SHIP\Texturas\SkyBox\lat3.jpg");
-            skyBox.setFaceTexture(TgcSkyBox.SkyFaces.Back,  alumnoMediaFolder + @"BATTLE_SHIP\Texturas\SkyBox\lat4.jpg");
-
-            //Actualizar todos los valores para crear el SkyBox
-            skyBox.updateValues();
-
+            skyBox = new BSSkyBox(camara.GetPosition(), alumnoMediaFolder);
 
         }
 
@@ -165,7 +133,7 @@ namespace AlumnoEjemplos.BATTLE_SHIP
             // Calcular interaccion de usuario
             ControlUsuario.CampurarInteraccionDeUsuario(GuiController.Instance.D3dInput, pickingRay, managerPrincipal);
 
-            // Actualizar todo
+            // Actualizar todos los elementos
             managerPrincipal.Actualizar(elapsedTime);
             camara.Actualizar();
             managerPrincipal.ActualizarListaDeObjetosInteractivos();
@@ -174,8 +142,7 @@ namespace AlumnoEjemplos.BATTLE_SHIP
             managerPrincipal.RenderAll();
 
             // Terreno
-            skyBox.ActualizarCentro(camara.GetPosition());
-            //skyBox.updateValues();
+            skyBox.Actualizar(camara.GetPosition());
             skyBox.render();
 
             // Panel
@@ -206,6 +173,6 @@ namespace AlumnoEjemplos.BATTLE_SHIP
 
         public PanelUsuario panel { get; set; }
 
-        public MoveableTgcSkyBox skyBox { get; set; }
+        public ISkyBox skyBox { get; set; }
     }
 }
