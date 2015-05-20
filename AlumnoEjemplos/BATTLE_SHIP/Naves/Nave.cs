@@ -15,9 +15,14 @@ namespace AlumnoEjemplos.BATTLE_SHIP.Naves
     {
         private Matrix matrizDeEscala;
         private Matrix matrizDeRotacionDelMesh;
+        private float velocidadMaxima;
+        private float aceleracion;
+        private float desaceleracion;
+        private float velocidadActual;
+
         #region Atributos
 
-        protected float velocidad { get; set; }
+        //protected float velocidad { get; set; }
         protected float velocidadRotacionY { get; set; }
         protected float velocidadRotacionX { get; set; }
         protected float velocidadRotacionZ { get; set; }
@@ -57,11 +62,18 @@ namespace AlumnoEjemplos.BATTLE_SHIP.Naves
         public Nave(string name, TgcMesh parentInstance, 
             Vector3 posicionInicial, Vector3 rotacionInicialSobreEjeY, 
             Vector3 escalaDelMesh, Vector3 rotacionDelMesh,
-            float velocidadMaxima, float velocidadDeRotacion) : 
+            float velocidadMax, float velocidadDeRotacion) : 
             base(name, parentInstance, posicionInicial, rotacionInicialSobreEjeY, escalaDelMesh)
         {
             enabled = true;
-            velocidad = velocidadMaxima;
+            
+            velocidadMaxima = velocidadMax;
+            velocidadActual = 0f;
+            aceleracion = 100f;
+            desaceleracion = 3 * aceleracion;
+
+            moverAdelante = 1f;
+
             velocidadRotacionY = velocidadDeRotacion;
             velocidadRotacionX = velocidadRotacionY * 0.7f;
             velocidadRotacionZ = velocidadRotacionY * 0.7f;
@@ -108,13 +120,13 @@ namespace AlumnoEjemplos.BATTLE_SHIP.Naves
 
         public void Avanzar()
         {
-            moverAdelante = velocidad;
+            moverAdelante = 1f;
             moviendo = true;
         }
 
         public void Retroceder()
         {
-            moverAdelante = -velocidad;
+            moverAdelante = -1f;
             moviendo = true;
         }
 
@@ -158,11 +170,34 @@ namespace AlumnoEjemplos.BATTLE_SHIP.Naves
 
         protected void ActualizarPosicion(float elapsedTime)
         {
-            // En movimiento
-            if (moviendo)
+            // MOVIENTO 
+
+            if (moviendo) // En movimiento
             {
-                moveOrientedXYZ(moverAdelante * elapsedTime); 
+                var acc = ((velocidadActual * moverAdelante < 0) ? desaceleracion + aceleracion : aceleracion);
+
+                velocidadActual = moverAdelante * acc * elapsedTime + velocidadActual;
+                
+                if (FastMath.Abs(velocidadActual) >= FastMath.Abs(velocidadMaxima))
+                    velocidadActual = moverAdelante * velocidadMaxima;
+
+                moveOrientedXYZ(velocidadActual * elapsedTime); 
             }
+            else // Frenando o Quieto
+            {
+                if (velocidadActual != 0f) // Frenando
+                {
+                    var signo = ((velocidadActual < 0) ? 1f : -1f);
+                    velocidadActual = signo * desaceleracion * elapsedTime + velocidadActual;
+
+                    if (velocidadActual * signo >= 0f)
+                        velocidadActual = 0f;
+
+                    moveOrientedXYZ(velocidadActual * elapsedTime); 
+                }
+            }
+            
+            // ROTACION
 
             // Rotacion lateral (izq o der)
             if (rotandoY)
