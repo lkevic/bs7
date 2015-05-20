@@ -202,7 +202,7 @@ namespace AlumnoEjemplos.BATTLE_SHIP.Naves
             // Rotacion lateral (izq o der)
             if (rotandoY)
             {
-                float rotAngle = Geometry.DegreeToRadian(rotarY * elapsedTime);
+                float rotAngle = Geometry.DegreeToRadian(rotarY * elapsedTime * ((velocidadActual < 0) ? -1f : 1f));
                 rotateY(rotAngle);
 
                 if (rotation.Z <= anguloMaximoDeRotZ && rotation.Z >= anguloMinimoDeRotZ)
