@@ -106,7 +106,7 @@ namespace AlumnoEjemplos.BATTLE_SHIP.Usuario.Panel
                     {
                         enemigosMostrados[contador].Position = centro + vecEsc - centroPuntoEnemigo;
                         enemigosMostrados[contador].RotationCenter = centroPuntoEnemigo - vecEsc;
-                        enemigosMostrados[contador].Rotation = -(usuario.Rotation.Y - usuario.RotInicial.Y);
+                        enemigosMostrados[contador].Rotation = -(usuario.Rotation.Y);
                         enemigosMostrados[contador].Enabled = true;
                         contador++;
                     }

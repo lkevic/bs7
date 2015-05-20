@@ -66,16 +66,19 @@ namespace AlumnoEjemplos.BATTLE_SHIP
             //Carpeta de archivos Media del alumno
             string alumnoMediaFolder = GuiController.Instance.AlumnoEjemplosMediaDir;
 
+            // TgcViewer.Utils
             GuiController.Instance.Logger.log("Cargando TgcViewer.Utils");
             pickingRay = new TgcPickingRay();
             TgcSceneLoader loader = new TgcSceneLoader();
 
+            // Se crea el manejador principal de elementos
             GuiController.Instance.Logger.log("Cargando Administrador de Elementos");
             managerPrincipal = new ElementosManager();
 
+            // Panel de usuario
             GuiController.Instance.Logger.log("Cargando Panel de Usuario");
             panel = new PanelUsuario();
-
+            
             GuiController.Instance.Logger.log("Cargando Factorys");
             creadorDeNaves = new NaveFactory(managerPrincipal, loader);
             creadorDeObjetosEspaciales = new EspacioFactory(managerPrincipal, loader);
@@ -83,14 +86,6 @@ namespace AlumnoEjemplos.BATTLE_SHIP
             GuiController.Instance.Logger.log("Creado Nave Principal");
             navePrincipal = creadorDeNaves.CrearNavePrincipal();
 
-            //TgcBox obstaculo;
-            //Obstaculo 1
-            //obstaculo = TgcBox.fromSize(
-            //    new Vector3(-100, 0, 0),
-            //    new Vector3(80, 150, 80),
-            //    TgcTexture.createTexture(d3dDevice, GuiController.Instance.ExamplesMediaDir + "Texturas\\baldosaFacultad.jpg"));
-            //managerPrincipal.Add(obstaculo);
-            
             // Enemigos
             GuiController.Instance.Logger.log("Creado Naves Enemigas");
             creadorDeNaves.CrearNaveEnemiga1(new Vector3(1000, 200, 700));
@@ -127,9 +122,8 @@ namespace AlumnoEjemplos.BATTLE_SHIP
             skyBox = new BSSkyBox(camara.GetPosition(), alumnoMediaFolder);
 
             //Listo
-            GuiController.Instance.Logger.log("Listo!");
+            GuiController.Instance.Logger.log("Listo!", Color.Green);
         }
-
 
         /// <summary>
         /// Método que se llama cada vez que hay que refrescar la pantalla.
@@ -159,7 +153,6 @@ namespace AlumnoEjemplos.BATTLE_SHIP
 
             // Panel
             panel.render(managerPrincipal.NavePrincipal, managerPrincipal.NavesEnemigas);
-
         }
 
         /// <summary>

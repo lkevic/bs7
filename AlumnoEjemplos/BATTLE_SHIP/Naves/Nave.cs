@@ -13,6 +13,8 @@ namespace AlumnoEjemplos.BATTLE_SHIP.Naves
 {
     public class Nave : TgcMesh, IInteractivo
     {
+        private Matrix matrizDeEscala;
+        private Matrix matrizDeRotacionDelMesh;
         #region Atributos
 
         protected float velocidad { get; set; }
@@ -20,11 +22,7 @@ namespace AlumnoEjemplos.BATTLE_SHIP.Naves
         protected float velocidadRotacionX { get; set; }
         protected float velocidadRotacionZ { get; set; }
 
-        protected Vector3 rotInicial { get; set; }
-
-        public Vector3 RotInicial { get { return rotInicial; } }
-        
-        protected float moverAtras { get; set; }
+        protected float moverAdelante { get; set; }
         protected bool moviendo { get; set; }
 
         protected float rotarY { get; set; }
@@ -56,9 +54,11 @@ namespace AlumnoEjemplos.BATTLE_SHIP.Naves
 
         #region General
 
-        public Nave(string name, TgcMesh parentInstance, Vector3 translation, Vector3 rotation, Vector3 scale,
+        public Nave(string name, TgcMesh parentInstance, 
+            Vector3 posicionInicial, Vector3 rotacionInicialSobreEjeY, 
+            Vector3 escalaDelMesh, Vector3 rotacionDelMesh,
             float velocidadMaxima, float velocidadDeRotacion) : 
-            base(name, parentInstance, translation, rotation, scale)
+            base(name, parentInstance, posicionInicial, rotacionInicialSobreEjeY, escalaDelMesh)
         {
             enabled = true;
             velocidad = velocidadMaxima;
@@ -85,7 +85,15 @@ namespace AlumnoEjemplos.BATTLE_SHIP.Naves
             createBoundingBox();
             updateBoundingBox();
 
-            rotInicial = new Vector3(rotation.X, rotation.Y, rotation.Z);
+            // Se crean las matriz de rotación para alinear el mesh a los ejes de coordenadas.
+            matrizDeRotacionDelMesh = Matrix.RotationYawPitchRoll(rotacionDelMesh.Y, rotacionDelMesh.X, rotacionDelMesh.Z);
+            // Se crean las matriz de rotación para escalar el mesh
+            matrizDeEscala = Matrix.Scaling(scale);
+
+            // Se rota la nave solo sobre el eje Y, ya que la nave no debe iniciar rotada sobre otro eje.
+            rotateY(rotacionInicialSobreEjeY.Y);
+
+            this.autoTransformEnable = false;
         }
 
         public void Actualizar(float elapsedTime)
@@ -100,84 +108,88 @@ namespace AlumnoEjemplos.BATTLE_SHIP.Naves
 
         public void Avanzar()
         {
-            moverAtras = 0f;
-            moverAtras = velocidad;
+            moverAdelante = velocidad;
             moviendo = true;
         }
 
         public void Retroceder()
         {
-            moverAtras = 0f;
-            moverAtras = -velocidad;
+            moverAdelante = -velocidad;
             moviendo = true;
         }
 
         public void GirarDerecha()
         {
-            rotarY = 0f;
             rotarY = velocidadRotacionY;
-            rotandoY = true;
-            rotarZ = velocidadRotacionZ;
-        }
-
-        public void GirarIzquierda()
-        {
-            rotarY = 0f;
-            rotarY = -velocidadRotacionY;
             rotandoY = true;
             rotarZ = -velocidadRotacionZ;
         }
 
+        public void GirarIzquierda()
+        {
+            rotarY = -velocidadRotacionY;
+            rotandoY = true;
+            rotarZ = velocidadRotacionZ;
+        }
+
         public void Arriba()
         {
-            rotarX = 0f;
-            rotarX = velocidadRotacionX;
+            rotarX = -velocidadRotacionX;
             rotandoX = true;
         }
 
         public void Abajo()
         {
-            rotarX = 0f;
-            rotarX = -velocidadRotacionX;
+            rotarX = +velocidadRotacionX;
             rotandoX = true;
         }
-        
+
+        /// <summary>
+        /// Aplicar transformaciones del mesh
+        /// </summary>
+        protected void updateMeshTransformNave()
+        {
+            //Aplicar transformacion de malla
+            this.transform = matrizDeRotacionDelMesh
+                * matrizDeEscala
+                * Matrix.RotationYawPitchRoll(rotation.Y, rotation.X, rotation.Z)
+                * Matrix.Translation(translation);
+        }
+
         protected void ActualizarPosicion(float elapsedTime)
         {
             // En movimiento
             if (moviendo)
             {
-                moveOrientedXY(moverAtras * elapsedTime); 
+                moveOrientedXYZ(moverAdelante * elapsedTime); 
             }
 
             // Rotacion lateral (izq o der)
             if (rotandoY)
             {
-                //Rotar personaje y la camara, hay que multiplicarlo por el tiempo transcurrido para no atarse a la velocidad el hardware
                 float rotAngle = Geometry.DegreeToRadian(rotarY * elapsedTime);
                 rotateY(rotAngle);
 
-                if ((rotation.Z - rotInicial.Z) <= anguloMaximoDeRotZ && (rotation.Z - rotInicial.Z) >= anguloMinimoDeRotZ)
+                if (rotation.Z <= anguloMaximoDeRotZ && rotation.Z >= anguloMinimoDeRotZ)
                 {
-                    //Rotar personaje y la camara, hay que multiplicarlo por el tiempo transcurrido para no atarse a la velocidad el hardware
                     rotateZ(Geometry.DegreeToRadian(rotarZ * elapsedTime));
                 }
                 else
                 {
-                    if ((rotation.Z - rotInicial.Z) >= anguloMaximoDeRotZ)
+                    if (rotation.Z >= anguloMaximoDeRotZ)
                     {
-                        rotation.Z = anguloMaximoDeRotZ + rotInicial.Z;
+                        rotation.Z = anguloMaximoDeRotZ;
                     }
                     else
                     {
-                        rotation.Z = anguloMinimoDeRotZ + rotInicial.Z;
+                        rotation.Z = anguloMinimoDeRotZ;
                     }
                 }
             }
             else
             {
                 // Volver a colocar la nave paralela al plano XZ
-                float acomodar = rotInicial.Z - rotation.Z;
+                float acomodar = - rotation.Z;
                 if (acomodar != 0f)
                 {
                     if (acomodar > 0)
@@ -186,7 +198,7 @@ namespace AlumnoEjemplos.BATTLE_SHIP.Naves
                         if (acomodar > correccion)
                             rotateZ(Geometry.DegreeToRadian(velocidadRotacionZ * elapsedTime));
                         else
-                            rotation.Z = rotInicial.Z;
+                            rotation.Z = 0f;
                     }
                     else
                     {
@@ -194,7 +206,7 @@ namespace AlumnoEjemplos.BATTLE_SHIP.Naves
                         if (acomodar < correccion)
                             rotateZ(Geometry.DegreeToRadian(-velocidadRotacionZ * elapsedTime));
                         else
-                            rotation.Z = rotInicial.Z;
+                            rotation.Z = 0f;
                     }
                 }
             }
@@ -202,27 +214,26 @@ namespace AlumnoEjemplos.BATTLE_SHIP.Naves
             // Rotacion para arriba o para abajo
             if (rotandoX)
             {
-                if ((rotation.X - rotInicial.X) <= anguloMaximoDeRotX && (rotation.X - rotInicial.X) >= anguloMinimoDeRotX)
+                if (rotation.X <= anguloMaximoDeRotX && rotation.X >= anguloMinimoDeRotX)
                 {
-                    //Rotar personaje y la camara, hay que multiplicarlo por el tiempo transcurrido para no atarse a la velocidad el hardware
                     rotateX(Geometry.DegreeToRadian(rotarX * elapsedTime));
                 }
                 else 
                 {
-                    if ((rotation.X - rotInicial.X) >= anguloMaximoDeRotX)
+                    if (rotation.X >= anguloMaximoDeRotX)
                     {
-                        rotation.X = anguloMaximoDeRotX + rotInicial.X;
+                        rotation.X = anguloMaximoDeRotX;
                     }
                     else 
                     {
-                        rotation.X = anguloMinimoDeRotX + rotInicial.X;
+                        rotation.X = anguloMinimoDeRotX;
                     }
                 }
             }
             else
             {
                 // Volver a colocar la nave paralela al plano XZ
-                float acomodar = rotInicial.X - rotation.X;
+                float acomodar = 0f - rotation.X;
                 if (acomodar != 0f)
                 {
                     if(acomodar > 0)
@@ -231,7 +242,7 @@ namespace AlumnoEjemplos.BATTLE_SHIP.Naves
                         if(acomodar > correccion)
                             rotateX(Geometry.DegreeToRadian(velocidadRotacionX * elapsedTime));
                         else
-                            rotation.X = rotInicial.X;
+                            rotation.X = 0f;
                     }
                     else
                     {
@@ -239,7 +250,7 @@ namespace AlumnoEjemplos.BATTLE_SHIP.Naves
                         if (acomodar < correccion)
                             rotateX(Geometry.DegreeToRadian(-velocidadRotacionX * elapsedTime));
                         else
-                            rotation.X = rotInicial.X;
+                            rotation.X = 0f;
                     }
                 }
             }
@@ -248,17 +259,18 @@ namespace AlumnoEjemplos.BATTLE_SHIP.Naves
             rotandoY = false;
             rotandoX = false;
             moviendo = false;
+            updateMeshTransformNave();
         }
 
-        public void moveOrientedXY(float movement)
+        protected void moveOrientedXYZ(float movement)
         {
-            float z = FastMath.Cos(rotation.Y - rotInicial.Y) * FastMath.Cos(rotation.X - rotInicial.X) * movement;
-            float x = FastMath.Sin(rotation.Y - rotInicial.Y) * FastMath.Cos(rotation.X - rotInicial.X) * movement;
-            float y = FastMath.Sin(rotation.X - rotInicial.X) * movement;
+            float z = FastMath.Cos(rotation.Y) * FastMath.Cos(-rotation.X) * movement;
+            float x = FastMath.Sin(rotation.Y) * FastMath.Cos(-rotation.X) * movement;
+            float y = FastMath.Sin(-rotation.X) * movement;
 
             move(x, y, z);
         }
-
+        
         #endregion
 
         #region Disparo

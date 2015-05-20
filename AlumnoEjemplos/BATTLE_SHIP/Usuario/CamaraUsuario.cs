@@ -24,14 +24,14 @@ namespace AlumnoEjemplos.BATTLE_SHIP.Usuario
 
         public void Actualizar()
         {
-            GuiController.Instance.ThirdPersonCamera.RotationY = objetivo.Rotation.Y - objetivo.RotInicial.Y;
+            GuiController.Instance.ThirdPersonCamera.RotationY = objetivo.Rotation.Y;
             GuiController.Instance.ThirdPersonCamera.Target = CalcularPosition();
         }
 
         private Vector3 CalcularPosition()
         {
-            float z = FastMath.Cos(objetivo.Rotation.Y - objetivo.RotInicial.Y) * adelantar;
-            float x = FastMath.Sin(objetivo.Rotation.Y - objetivo.RotInicial.Y) * adelantar;
+            float z = FastMath.Cos(objetivo.Rotation.Y) * adelantar;
+            float x = FastMath.Sin(objetivo.Rotation.Y) * adelantar;
 
             return new Vector3(objetivo.Position.X + x, objetivo.Position.Y, objetivo.Position.Z + z);
         }

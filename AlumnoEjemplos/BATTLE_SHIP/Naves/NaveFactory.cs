@@ -25,6 +25,7 @@ namespace AlumnoEjemplos.BATTLE_SHIP.Naves
         {
             float escala = 0.5f;
             var filePath = GuiController.Instance.ExamplesMediaDir + "MeshCreator\\Meshes\\Vehiculos\\NaveEspacial\\NaveEspacial-TgcScene.xml";
+            //var filePath = GuiController.Instance.ExamplesMediaDir + "MeshCreator\\Meshes\\Vehiculos\\StarWars-Speeder\\StarWars-Speeder-TgcScene.xml";
             //Cargar nave
             TgcSceneLoader loader = new TgcSceneLoader();
             TgcScene scene = loader.loadSceneFromFile(filePath);
@@ -32,8 +33,10 @@ namespace AlumnoEjemplos.BATTLE_SHIP.Naves
             var nave = new Nave("Enterprice", 
                 scene.Meshes[0], 
                 new Vector3(0f, 0f, -500f), 
-                new Vector3(0f, Geometry.DegreeToRadian(180f), 0f), 
+                new Vector3(0f, Geometry.DegreeToRadian(0f), 0f), 
                 new Vector3(escala, escala, escala),
+                new Vector3(0f, Geometry.DegreeToRadian(180f), 0f),
+                //new Vector3(0f, Geometry.DegreeToRadian(270f), 0f),
                 250f,
                 70f);
 
@@ -54,8 +57,9 @@ namespace AlumnoEjemplos.BATTLE_SHIP.Naves
                 scene.Meshes[0],
                 pos,
                 //new Vector3(1000, 200, 500),
-                new Vector3(0f, 0f, 0f),
+                new Vector3(0f, Geometry.DegreeToRadian(45f), 0f),
                 new Vector3(escala, escala, escala),
+                new Vector3(0f, Geometry.DegreeToRadian(270f), 0f),
                 250f,
                 70f);
 
@@ -66,7 +70,7 @@ namespace AlumnoEjemplos.BATTLE_SHIP.Naves
 
         public Nave CrearNaveEnemigaVIP(Vector3 pos)
         {
-            float escala = 1.2f;
+            float escala = 2f;
             var filePath = GuiController.Instance.ExamplesMediaDir + "MeshCreator\\Meshes\\Vehiculos\\StarWars-YWing\\StarWars-YWing-TgcScene.xml";
             //Cargar nave
             TgcSceneLoader loader = new TgcSceneLoader();
@@ -75,8 +79,9 @@ namespace AlumnoEjemplos.BATTLE_SHIP.Naves
             var nave = new Nave("MaloVIP",
                 scene.Meshes[0],
                 pos,
-                new Vector3(0f, 0f, 0f),
+                new Vector3(0f, Geometry.DegreeToRadian(45f), 0f),
                 new Vector3(escala, escala, escala),
+                new Vector3(0f, Geometry.DegreeToRadian(270f), 0f),
                 250f,
                 70f);
 
