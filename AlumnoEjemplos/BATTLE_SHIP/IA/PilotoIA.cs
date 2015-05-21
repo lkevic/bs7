@@ -24,6 +24,10 @@ namespace AlumnoEjemplos.BATTLE_SHIP.IA
         private Vector3 vecDistanciaAlObjetivo;
         private double milisegDesdeInicioDeAtaque;
         private float toleranciaDeRotacion;
+        private Vector3[] puntosDeVigilancia;
+        private int puntoActual;
+        private float distanciaAceptableAlPuntoDeVigilancia;
+        private bool meEstoyMoviendo;
 
         public bool Activo { get { return (nave != null && nave.Enabled); } }
 
@@ -35,9 +39,26 @@ namespace AlumnoEjemplos.BATTLE_SHIP.IA
             radioDePersecucion = 1500f;
             distanciaDeAtaque = 1000f;
             distanciaAceptableAlObjetivo = 500f;
+            distanciaAceptableAlPuntoDeVigilancia = 200f;
             toleranciaDeRotacion = FastMath.PI / 16f;
             vecDistanciaAlObjetivo = new Vector3(float.MaxValue, float.MaxValue, float.MaxValue);
             milisegDesdeInicioDeAtaque = 0f;
+            puntoActual = -1;
+        }
+
+        public void SetPuntosDeVigilancia(List<Vector3> puntos)
+        {
+            if (puntos == null || puntos.Count() <= 0)
+                return;
+
+            puntoActual = 0;
+
+            puntosDeVigilancia = new Vector3[puntos.Count()];
+            int i = 0;
+            foreach (var punto in puntos)
+            {
+                puntosDeVigilancia[i++] = punto;
+            }
         }
 
         public Vector3 Position
@@ -53,8 +74,8 @@ namespace AlumnoEjemplos.BATTLE_SHIP.IA
 
         public void Actualizar(float elapsedTime)
         {
-            if (objetivo != null) 
-            { 
+            if (objetivo != null)
+            {
                 vecDistanciaAlObjetivo = TgcMath.VectorDistancia(nave.Position, objetivo.Position);
                 milisegDesdeInicioDeAtaque = (DateTime.Now - timeStampDeOrdenDeAtaque).TotalMilliseconds;
 
@@ -69,6 +90,26 @@ namespace AlumnoEjemplos.BATTLE_SHIP.IA
                     DispararSiSePuede(objetivo, vecDistanciaAlObjetivo, distanciaDeAtaque);
                 }
             }
+            else
+            {
+                if (puntoActual != -1)
+                {
+                    vecDistanciaAlObjetivo = TgcMath.VectorDistancia(nave.Position, puntosDeVigilancia[puntoActual]);
+                    if (IrA(puntosDeVigilancia[puntoActual], vecDistanciaAlObjetivo, distanciaAceptableAlPuntoDeVigilancia))
+                        PasarAProximoPuntoDeVigilancia();
+                }
+            }
+        }
+
+        private void PasarAProximoPuntoDeVigilancia()
+        {
+            if (puntosDeVigilancia.Count() <= 0)
+                puntoActual = -1;
+
+            puntoActual++;
+
+            if (puntoActual >= puntosDeVigilancia.Count())
+                puntoActual = 0;
         }
 
         private void DispararSiSePuede(Nave enemigo, Vector3 vecDistanciaAlObjetivo, float distanciaDeAtaque)
@@ -79,10 +120,13 @@ namespace AlumnoEjemplos.BATTLE_SHIP.IA
             }
         }
 
-        private void IrA(Vector3 vector3, Vector3 vecDistanciaAlObjetivo, float distanciaAceptableAlObjetivo)
+        private bool IrA(Vector3 vector3, Vector3 vecDistanciaAlObjetivo, float distanciaAceptableAlObjetivo)
         {
+            meEstoyMoviendo = false;
+
             if (vecDistanciaAlObjetivo.Length() > distanciaAceptableAlObjetivo) 
             {
+                meEstoyMoviendo = true;
                 nave.Avanzar();
             }
 
@@ -94,6 +138,7 @@ namespace AlumnoEjemplos.BATTLE_SHIP.IA
             
             if (FastMath.Abs(anguloDeDiferencia) > toleranciaDeRotacion)
             {
+                meEstoyMoviendo = true;
                 if ((anguloDeDiferencia > 0f && anguloDeDiferencia < FastMath.PI)
                     || (anguloDeDiferencia > -FastMath.PI && anguloDeDiferencia < -FastMath.TWO_PI))
                 {
@@ -104,6 +149,8 @@ namespace AlumnoEjemplos.BATTLE_SHIP.IA
                     nave.GirarIzquierda();
                 }
             }
+
+            return !meEstoyMoviendo;
         }
 
     }

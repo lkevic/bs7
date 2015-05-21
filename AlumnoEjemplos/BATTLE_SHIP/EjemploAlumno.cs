@@ -89,57 +89,90 @@ namespace AlumnoEjemplos.BATTLE_SHIP
 
             // Enemigos
             GuiController.Instance.Logger.log("Creado Naves Enemigas");
-            var enemigoCapo = creadorDeNaves.CrearNaveEnemiga1(new Vector3(1000, 200, 700));
-            creadorDeNaves.CrearNaveEnemiga1(new Vector3(1000, 200, 300));
-            creadorDeNaves.CrearNaveEnemiga1(new Vector3(1000, 0, 700));
-            creadorDeNaves.CrearNaveEnemiga1(new Vector3(1000, 0, 300));
-            creadorDeNaves.CrearNaveEnemiga1(new Vector3(1000, 100, 500));
 
-            creadorDeNaves.CrearNaveEnemiga1(new Vector3(1400, 100, 700));
-            creadorDeNaves.CrearNaveEnemiga1(new Vector3(1400, 100, 300));
-            creadorDeNaves.CrearNaveEnemiga1(new Vector3(1400, 200, 500));
-            creadorDeNaves.CrearNaveEnemiga1(new Vector3(1400, 0, 500));
+            var enemigo1 = creadorDeNaves.CrearNaveEnemiga1(new Vector3(1000, 100, 700));
+            var enemigo2 = creadorDeNaves.CrearNaveEnemiga1(new Vector3(1000, -100, 700));
+            var enemigo3 = creadorDeNaves.CrearNaveEnemiga1(new Vector3(1000, 50, 700));
+            var enemigo4 = creadorDeNaves.CrearNaveEnemiga1(new Vector3(-1000, -50, 700));
+            var enemigoCapo = creadorDeNaves.CrearNaveEnemigaVIP(new Vector3(1400, 0, 500));
+            //creadorDeNaves.CrearNaveEnemiga1(new Vector3(1000, 200, 300));
+            //creadorDeNaves.CrearNaveEnemiga1(new Vector3(1000, 0, 700));
+            //creadorDeNaves.CrearNaveEnemiga1(new Vector3(1000, 0, 300));
+            //creadorDeNaves.CrearNaveEnemiga1(new Vector3(1000, 100, 500));
 
-            creadorDeNaves.CrearNaveEnemiga1(new Vector3(1700, 100, 600));
-            creadorDeNaves.CrearNaveEnemiga1(new Vector3(1700, 100, 400));
+            //creadorDeNaves.CrearNaveEnemiga1(new Vector3(1400, 100, 700));
+            //creadorDeNaves.CrearNaveEnemiga1(new Vector3(1400, 100, 300));
+            //creadorDeNaves.CrearNaveEnemiga1(new Vector3(1400, 200, 500));
+            //creadorDeNaves.CrearNaveEnemiga1(new Vector3(1400, 0, 500));
 
-            creadorDeNaves.CrearNaveEnemiga1(new Vector3(2000, 100, 500));
+            //creadorDeNaves.CrearNaveEnemiga1(new Vector3(1700, 100, 600));
+            //creadorDeNaves.CrearNaveEnemiga1(new Vector3(1700, 100, 400));
 
-            creadorDeNaves.CrearNaveEnemigaVIP(new Vector3(1400, 100, 500));
+            //creadorDeNaves.CrearNaveEnemiga1(new Vector3(2000, 100, 500));
+
+            //creadorDeNaves.CrearNaveEnemigaVIP(new Vector3(1400, 100, 500));
             
-            creadorDeNaves.CrearNaveEnemiga1(new Vector3(200,   50, 1500));
-            creadorDeNaves.CrearNaveEnemiga1(new Vector3(100,  100, 1500));
-            creadorDeNaves.CrearNaveEnemiga1(new Vector3(200,  150, 1500));
-            creadorDeNaves.CrearNaveEnemiga1(new Vector3(100,  200, 1500));
-            creadorDeNaves.CrearNaveEnemiga1(new Vector3(200,  250, 1500));
-            creadorDeNaves.CrearNaveEnemiga1(new Vector3(100,  300, 1500));
-            creadorDeNaves.CrearNaveEnemiga1(new Vector3(200,  350, 1500));
-            creadorDeNaves.CrearNaveEnemiga1(new Vector3(100,  400, 1500));
+            //creadorDeNaves.CrearNaveEnemiga1(new Vector3(200,   50, 1500));
+            //creadorDeNaves.CrearNaveEnemiga1(new Vector3(100,  100, 1500));
+            //creadorDeNaves.CrearNaveEnemiga1(new Vector3(200,  150, 1500));
+            //creadorDeNaves.CrearNaveEnemiga1(new Vector3(100,  200, 1500));
+            //creadorDeNaves.CrearNaveEnemiga1(new Vector3(200,  250, 1500));
+            //creadorDeNaves.CrearNaveEnemiga1(new Vector3(100,  300, 1500));
+            //creadorDeNaves.CrearNaveEnemiga1(new Vector3(200,  350, 1500));
+            //creadorDeNaves.CrearNaveEnemiga1(new Vector3(100,  400, 1500));
 
-            creadorDeNaves.CrearNaveEnemiga1(new Vector3(200,    0, 1500));
+            //creadorDeNaves.CrearNaveEnemiga1(new Vector3(200,    0, 1500));
 
-            creadorDeNaves.CrearNaveEnemiga1(new Vector3(200, - 50, 1500));
-            creadorDeNaves.CrearNaveEnemiga1(new Vector3(100, -100, 1500));
-            creadorDeNaves.CrearNaveEnemiga1(new Vector3(200, -150, 1500));
-            creadorDeNaves.CrearNaveEnemiga1(new Vector3(100, -200, 1500));
-            creadorDeNaves.CrearNaveEnemiga1(new Vector3(200, -250, 1500));
-            creadorDeNaves.CrearNaveEnemiga1(new Vector3(100, -300, 1500));
-            creadorDeNaves.CrearNaveEnemiga1(new Vector3(200, -350, 1500));
-            creadorDeNaves.CrearNaveEnemiga1(new Vector3(100, -400, 1500));
+            //creadorDeNaves.CrearNaveEnemiga1(new Vector3(200, - 50, 1500));
+            //creadorDeNaves.CrearNaveEnemiga1(new Vector3(100, -100, 1500));
+            //creadorDeNaves.CrearNaveEnemiga1(new Vector3(200, -150, 1500));
+            //creadorDeNaves.CrearNaveEnemiga1(new Vector3(100, -200, 1500));
+            //creadorDeNaves.CrearNaveEnemiga1(new Vector3(200, -250, 1500));
+            //creadorDeNaves.CrearNaveEnemiga1(new Vector3(100, -300, 1500));
+            //creadorDeNaves.CrearNaveEnemiga1(new Vector3(200, -350, 1500));
+            //creadorDeNaves.CrearNaveEnemiga1(new Vector3(100, -400, 1500));
 
 
             GuiController.Instance.Logger.log("Creado Objetos del Espacio");
             creadorDeObjetosEspaciales.CrearSol(d3dDevice);
 
             // IA
+            GuiController.Instance.Logger.log("Creado IA");
             comandanteMalo = new IAManager();
             comandanteMalo.AddObjetivo(navePrincipal);
-            //comandanteMalo.AddNave(enemigoCapo);
-            foreach (var enem in managerPrincipal.NavesEnemigas)
-            {
-                comandanteMalo.AddNave(enem);
-            }
 
+            var recorrido1 = new List<Vector3>();
+            recorrido1.Add(new Vector3(500f, 0f, 2500f));
+            recorrido1.Add(new Vector3(500f, 0f, 3500f));
+            recorrido1.Add(new Vector3(-600f, 0f, 3500f));
+            recorrido1.Add(new Vector3(-600f, 0f, 2500f));
+            recorrido1.Add(new Vector3(-200f, 0f, 1800f));
+
+            comandanteMalo.AddNave(enemigoCapo, recorrido1);
+
+            recorrido1 = new List<Vector3>();
+            recorrido1.Add(new Vector3(5000f, 0f, 1500f));
+            recorrido1.Add(new Vector3(-5000f, 0f, 1500f));
+
+            comandanteMalo.AddNave(enemigo1, recorrido1);
+
+            recorrido1 = new List<Vector3>();
+            recorrido1.Add(new Vector3(4000f, 0f, 1500f));
+            recorrido1.Add(new Vector3(3000f, 0f, 2500f));
+            recorrido1.Add(new Vector3(1000f, 0f, 2500f));
+            recorrido1.Add(new Vector3(0f, 0f, 1000f));
+            recorrido1.Add(new Vector3(-2000f, 0f, 1000f));
+
+            comandanteMalo.AddNave(enemigo2, recorrido1);
+            comandanteMalo.AddNave(enemigo3, recorrido1);
+
+            recorrido1 = new List<Vector3>();
+            recorrido1.Add(new Vector3(-800f, 0f, 1500f));
+            recorrido1.Add(new Vector3(800f, 0f, 1500f));
+            recorrido1.Add(new Vector3(800f, 0f, 1000f));
+            recorrido1.Add(new Vector3(-800f, 0f, 1000f));
+
+            comandanteMalo.AddNave(enemigo4, recorrido1);
 
             //Posicion inicial de la camara
             GuiController.Instance.Logger.log("Cargando Cámara");

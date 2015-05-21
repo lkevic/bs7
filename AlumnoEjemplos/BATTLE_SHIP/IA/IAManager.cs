@@ -1,5 +1,6 @@
 ﻿using AlumnoEjemplos.BATTLE_SHIP.Naves;
 using AlumnoEjemplos.BATTLE_SHIP.Utils;
+using Microsoft.DirectX;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,9 +24,10 @@ namespace AlumnoEjemplos.BATTLE_SHIP.IA
             distanciaDePresecucion = 1000f;
         }
 
-        public void AddNave(Nave nave)
+        public void AddNave(Nave nave, List<Vector3> puntos)
         {
             PilotoIA nuevoPiloto = new PilotoIA(nave, this);
+            nuevoPiloto.SetPuntosDeVigilancia(puntos);
             pilotos.Add(nuevoPiloto);
             pilotosLibres.Add(nuevoPiloto);
         }
