@@ -32,13 +32,14 @@ namespace AlumnoEjemplos.BATTLE_SHIP.Naves
 
             var nave = new Nave("Enterprice", 
                 scene.Meshes[0], 
-                new Vector3(0f, 0f, -500f), 
+                new Vector3(0f, 0f, 0f), 
                 new Vector3(0f, Geometry.DegreeToRadian(0f), 0f), 
                 new Vector3(escala, escala, escala),
                 new Vector3(0f, Geometry.DegreeToRadian(180f), 0f),
                 //new Vector3(0f, Geometry.DegreeToRadian(270f), 0f),
                 250f,
-                70f);
+                70f,
+                2000000);
 
             ManagerTGC.AddNavePrincipal(nave);
 
@@ -60,8 +61,9 @@ namespace AlumnoEjemplos.BATTLE_SHIP.Naves
                 new Vector3(0f, Geometry.DegreeToRadian(45f), 0f),
                 new Vector3(escala, escala, escala),
                 new Vector3(0f, Geometry.DegreeToRadian(270f), 0f),
-                250f,
-                70f);
+                150f,
+                40f,
+                2000);
 
             ManagerTGC.Add(nave);
 
@@ -83,7 +85,8 @@ namespace AlumnoEjemplos.BATTLE_SHIP.Naves
                 new Vector3(escala, escala, escala),
                 new Vector3(0f, Geometry.DegreeToRadian(270f), 0f),
                 250f,
-                70f);
+                70f,
+                4000);
 
             ManagerTGC.Add(nave);
 

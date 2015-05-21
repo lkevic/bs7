@@ -8,15 +8,26 @@ namespace AlumnoEjemplos.BATTLE_SHIP.Utils
 {
     public static class TgcMath
     {
-        public static float Distancia(Vector3 punto1, Vector3 punto2)
+        public static float Distancia(Vector3 origen, Vector3 destino)
         {
-            return (punto1 - punto2).Length();
+            return (destino - origen).Length();
         }
 
-        public static float DistanciaXZ(Vector3 punto1, Vector3 punto2)
+        public static Vector3 VectorDistancia(Vector3 origen, Vector3 destino)
         {
-            var vec = new Vector2(punto1.X - punto2.X, punto1.Z - punto2.Z);
+            return (destino - origen);
+        }
+
+        public static float DistanciaXZ(Vector3 origen, Vector3 destino)
+        {
+            var vec = new Vector2(destino.X - origen.X, destino.Z - origen.Z);
             return vec.Length();
+        }
+
+        public static float DistanciaDeProyeccionSobreXZ(Vector3 vec)
+        {
+            var vecP = new Vector2(vec.X, vec.Z);
+            return vecP.Length();
         }
 
     }

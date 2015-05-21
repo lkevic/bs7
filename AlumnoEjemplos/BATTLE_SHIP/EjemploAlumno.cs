@@ -18,6 +18,7 @@ using AlumnoEjemplos.BATTLE_SHIP.Espacio;
 using TgcViewer.Utils.Terrain;
 using AlumnoEjemplos.BATTLE_SHIP.Utils;
 using AlumnoEjemplos.BATTLE_SHIP.Espacio.Terreno;
+using AlumnoEjemplos.BATTLE_SHIP.IA;
 
 namespace AlumnoEjemplos.BATTLE_SHIP
 {
@@ -88,7 +89,7 @@ namespace AlumnoEjemplos.BATTLE_SHIP
 
             // Enemigos
             GuiController.Instance.Logger.log("Creado Naves Enemigas");
-            creadorDeNaves.CrearNaveEnemiga1(new Vector3(1000, 200, 700));
+            var enemigoCapo = creadorDeNaves.CrearNaveEnemiga1(new Vector3(1000, 200, 700));
             creadorDeNaves.CrearNaveEnemiga1(new Vector3(1000, 200, 300));
             creadorDeNaves.CrearNaveEnemiga1(new Vector3(1000, 0, 700));
             creadorDeNaves.CrearNaveEnemiga1(new Vector3(1000, 0, 300));
@@ -105,9 +106,40 @@ namespace AlumnoEjemplos.BATTLE_SHIP
             creadorDeNaves.CrearNaveEnemiga1(new Vector3(2000, 100, 500));
 
             creadorDeNaves.CrearNaveEnemigaVIP(new Vector3(1400, 100, 500));
+            
+            creadorDeNaves.CrearNaveEnemiga1(new Vector3(200,   50, 1500));
+            creadorDeNaves.CrearNaveEnemiga1(new Vector3(100,  100, 1500));
+            creadorDeNaves.CrearNaveEnemiga1(new Vector3(200,  150, 1500));
+            creadorDeNaves.CrearNaveEnemiga1(new Vector3(100,  200, 1500));
+            creadorDeNaves.CrearNaveEnemiga1(new Vector3(200,  250, 1500));
+            creadorDeNaves.CrearNaveEnemiga1(new Vector3(100,  300, 1500));
+            creadorDeNaves.CrearNaveEnemiga1(new Vector3(200,  350, 1500));
+            creadorDeNaves.CrearNaveEnemiga1(new Vector3(100,  400, 1500));
+
+            creadorDeNaves.CrearNaveEnemiga1(new Vector3(200,    0, 1500));
+
+            creadorDeNaves.CrearNaveEnemiga1(new Vector3(200, - 50, 1500));
+            creadorDeNaves.CrearNaveEnemiga1(new Vector3(100, -100, 1500));
+            creadorDeNaves.CrearNaveEnemiga1(new Vector3(200, -150, 1500));
+            creadorDeNaves.CrearNaveEnemiga1(new Vector3(100, -200, 1500));
+            creadorDeNaves.CrearNaveEnemiga1(new Vector3(200, -250, 1500));
+            creadorDeNaves.CrearNaveEnemiga1(new Vector3(100, -300, 1500));
+            creadorDeNaves.CrearNaveEnemiga1(new Vector3(200, -350, 1500));
+            creadorDeNaves.CrearNaveEnemiga1(new Vector3(100, -400, 1500));
+
 
             GuiController.Instance.Logger.log("Creado Objetos del Espacio");
             creadorDeObjetosEspaciales.CrearSol(d3dDevice);
+
+            // IA
+            comandanteMalo = new IAManager();
+            comandanteMalo.AddObjetivo(navePrincipal);
+            //comandanteMalo.AddNave(enemigoCapo);
+            foreach (var enem in managerPrincipal.NavesEnemigas)
+            {
+                comandanteMalo.AddNave(enem);
+            }
+
 
             //Posicion inicial de la camara
             GuiController.Instance.Logger.log("Cargando Cámara");
@@ -140,6 +172,7 @@ namespace AlumnoEjemplos.BATTLE_SHIP
             ControlUsuario.CampurarInteraccionDeUsuario(GuiController.Instance.D3dInput, pickingRay, managerPrincipal);
 
             // Actualizar todos los elementos
+            comandanteMalo.Actualizar(elapsedTime);
             managerPrincipal.Actualizar(elapsedTime);
             camara.Actualizar();
             managerPrincipal.ActualizarListaDeObjetosInteractivos();
@@ -179,5 +212,7 @@ namespace AlumnoEjemplos.BATTLE_SHIP
         public PanelUsuario panel { get; set; }
 
         public ISkyBox skyBox { get; set; }
+
+        public IAManager comandanteMalo { get; set; }
     }
 }

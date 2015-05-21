@@ -19,6 +19,10 @@ namespace AlumnoEjemplos.BATTLE_SHIP.Naves
         private float aceleracion;
         private float desaceleracion;
         private float velocidadActual;
+        private DateTime ultimoDisparoFazer;
+        private float tiempoDeRecargaDeFazer;
+        private float tiempoDeRecargaDeLaser;
+        private DateTime ultimoDisparoLaser;
 
         #region Atributos
 
@@ -62,7 +66,8 @@ namespace AlumnoEjemplos.BATTLE_SHIP.Naves
         public Nave(string name, TgcMesh parentInstance, 
             Vector3 posicionInicial, Vector3 rotacionInicialSobreEjeY, 
             Vector3 escalaDelMesh, Vector3 rotacionDelMesh,
-            float velocidadMax, float velocidadDeRotacion) : 
+            float velocidadMax, float velocidadDeRotacion,
+            int vida) : 
             base(name, parentInstance, posicionInicial, rotacionInicialSobreEjeY, escalaDelMesh)
         {
             enabled = true;
@@ -83,15 +88,17 @@ namespace AlumnoEjemplos.BATTLE_SHIP.Naves
             anguloMaximoDeRotZ = Geometry.DegreeToRadian( 25f);
             anguloMinimoDeRotZ = Geometry.DegreeToRadian(-25f);
 
-            energia = 2000;
+            energia = vida;
             potenciaDeLaser = 200;
             potenciaDeFazer = 500;
 
             dispararLaser = false;
             cargandoLaser = false;
+            tiempoDeRecargaDeLaser = 1500f;
 
             dispararFazer = false;
             cargandoFazer = false;
+            tiempoDeRecargaDeFazer = 3000f;
 
             AutoUpdateBoundingBox = true;
             createBoundingBox();
@@ -347,6 +354,8 @@ namespace AlumnoEjemplos.BATTLE_SHIP.Naves
                 ManagerTGC.Add(nuevoLaser);
                 dispararLaser = false;
                 objetivoLaser = null;
+                cargandoLaser = true;
+                ultimoDisparoLaser = DateTime.Now;
             }
 
             if (dispararFazer)
@@ -355,7 +364,15 @@ namespace AlumnoEjemplos.BATTLE_SHIP.Naves
                 ManagerTGC.Add(nuevoFazer);
                 dispararFazer = false;
                 objetivoFazer = null;
+                cargandoFazer = true;
+                ultimoDisparoFazer = DateTime.Now;
             }
+
+            if (cargandoLaser && (DateTime.Now - ultimoDisparoLaser).TotalMilliseconds > tiempoDeRecargaDeLaser)
+                cargandoLaser = false;
+
+            if (cargandoFazer && (DateTime.Now - ultimoDisparoFazer).TotalMilliseconds > tiempoDeRecargaDeFazer)
+                cargandoFazer = false;
         }
 
         #endregion

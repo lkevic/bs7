@@ -93,6 +93,8 @@
     <Compile Include="BATTLE_SHIP\Espacio\Sol.cs" />
     <Compile Include="BATTLE_SHIP\Espacio\Terreno\BSSkyBox.cs" />
     <Compile Include="BATTLE_SHIP\Espacio\Terreno\ISkyBox.cs" />
+    <Compile Include="BATTLE_SHIP\IA\IAManager.cs" />
+    <Compile Include="BATTLE_SHIP\IA\PilotoIA.cs" />
     <Compile Include="BATTLE_SHIP\Naves\Fazer.cs" />
     <Compile Include="BATTLE_SHIP\Naves\Laser.cs" />
     <Compile Include="BATTLE_SHIP\Naves\Nave.cs" />
@@ -142,6 +144,7 @@
     <Content Include="AlumnoMedia\Panel\Radar\Usuario51x44.png" />
     <Content Include="AlumnoMedia\Panel\Radar\Usuario64x64.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
